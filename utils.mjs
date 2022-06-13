@@ -1,19 +1,23 @@
-import * as readline from 'readline';
 import path from 'path';
 import fs from 'fs';
 import { rl } from './app.mjs'
 
 export const switcher = (uInput) => {
+    const firstArg = uInput.trim().split(' ')[0];
+    const secondArg = uInput.trim().split(' ')[1];
+    const thirdArg = uInput.trim().split(' ')[2];
 
     console.log("You are currently in: " + process.cwd());
 
-    if (uInput.trim() == 'exit') rl.close();
+    if (firstArg == 'exit') rl.close();
     else {
-        switch (uInput.trim()) {//.slice(0, uInput.indexOf(' '))) {
+        switch (firstArg) {
             case 'up':
                 let myDir = process.cwd() + '';
                 try {
-                    process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
+                    if (fs.stat(process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep)).isDirectory())) {
+                        process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
+                    } else console.log('Operation failed');
                 } catch (err) {
                     console.error('Operation failed');
                 }
@@ -30,22 +34,27 @@ export const switcher = (uInput) => {
                 });
                 console.log("You are currently in: " + process.cwd());
                 break;
+            case 'cd':
+                let myDirCD = process.cwd() + '';
+                try {
+                    if (secondArg === '..') {
+                        if (fs.stat(process.chdir(myDirCD.split(path.sep).slice(0, -1).join(path.sep)).isDirectory())) {
+                            process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
+                        } else console.log('Operation failed');
+                    }
+                    if(secondArg && secondArg !== '..') process.chdir([myDirCD, secondArg].join(path.sep))
+                } catch (err) {
+                        console.error('Operation failed');
+                    }
+                
+
+                    break;    
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
                 rl.prompt();
                 break;
         }
     }
-    if(uInput === 'exit') return;
+    if (uInput === 'exit') return;
     else console.log("You are currently in: " + process.cwd());
 }
-/* case 'cd':
-    const changeDirCD = process.chdir((process.cwd() + uInput.slice(uInput.indexOf(' '))).split(path.sep).slice(0, -1).join(path.sep));
-    try {
-        process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
-        console.log("You are currently in: " + process.cwd());
-
-    } catch (err) {
-        console.error('Operation failed');
-    }
-    break; */
