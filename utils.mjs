@@ -4,6 +4,7 @@ import fs from 'fs';
 import { rl } from './app.mjs'
 
 export const switcher = (uInput) => {
+
     console.log("You are currently in: " + process.cwd());
 
     if (uInput.trim() == 'exit') rl.close();
@@ -13,8 +14,6 @@ export const switcher = (uInput) => {
                 let myDir = process.cwd() + '';
                 try {
                     process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
-                    console.log("You are currently in: " + process.cwd());
-
                 } catch (err) {
                     console.error('Operation failed');
                 }
@@ -37,6 +36,8 @@ export const switcher = (uInput) => {
                 break;
         }
     }
+    if(uInput === 'exit') return;
+    else console.log("You are currently in: " + process.cwd());
 }
 /* case 'cd':
     const changeDirCD = process.chdir((process.cwd() + uInput.slice(uInput.indexOf(' '))).split(path.sep).slice(0, -1).join(path.sep));
