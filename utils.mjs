@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { rl } from './app.mjs'
+import { rl } from './app.mjs';
+import { read } from './read.mjs';
 
 export const switcher = (uInput) => {
     const firstArg = uInput.trim().split(' ')[0];
@@ -9,7 +10,7 @@ export const switcher = (uInput) => {
 
     console.log("You are currently in: " + process.cwd());
 
-    if (firstArg == 'exit') rl.close();
+    if (firstArg == '.exit') rl.close();
     else {
         switch (firstArg) {
             case 'up':
@@ -42,13 +43,18 @@ export const switcher = (uInput) => {
                             process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
                         } else console.log('Operation failed');
                     }
-                    if(secondArg && secondArg !== '..') process.chdir([myDirCD, secondArg].join(path.sep))
+                    if (secondArg && secondArg !== '..') process.chdir([myDirCD, secondArg].join(path.sep))
                 } catch (err) {
-                        console.error('Operation failed');
-                    }
-                
-
-                    break;    
+                    console.error('Operation failed');
+                }
+                break;
+            case 'cat':
+                try{
+                   read(secondArg);
+                } catch(e) {
+                    console.log('Operation failed');
+                }
+                break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
                 rl.prompt();
