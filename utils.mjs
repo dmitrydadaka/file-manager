@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { rl } from './app.mjs';
 import { read } from './read.mjs';
+import { create } from './create.mjs';
+
 
 export const switcher = (uInput) => {
     const firstArg = uInput.trim().split(' ')[0];
@@ -20,14 +22,14 @@ export const switcher = (uInput) => {
                         process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
                     } else console.log('Operation failed');
                 } catch (err) {
-                    console.error('Operation failed');
+                    console.log('Operation failed');
                 }
                 break;
             case 'ls':
                 const directoryPath = process.cwd();
                 fs.readdir(directoryPath, function (err, files) {
                     if (err) {
-                        return console.log('Unable to scan directory: ' + err);
+                        return console.log('Operation failed');
                     }
                     files.forEach(function (file) {
                         console.log(file);
@@ -45,13 +47,20 @@ export const switcher = (uInput) => {
                     }
                     if (secondArg && secondArg !== '..') process.chdir([myDirCD, secondArg].join(path.sep))
                 } catch (err) {
-                    console.error('Operation failed');
+                    console.log('Operation failed');
                 }
                 break;
             case 'cat':
-                try{
-                   read(secondArg);
-                } catch(e) {
+                try {
+                    read(secondArg);
+                } catch (e) {
+                    console.log('Operation failed');
+                }
+                break;
+            case 'add':
+                try {
+                    create(process.cwd(), secondArg);
+                } catch (e) {
                     console.log('Operation failed');
                 }
                 break;
@@ -61,6 +70,6 @@ export const switcher = (uInput) => {
                 break;
         }
     }
-    if (uInput === 'exit') return;
+    if (uInput === '.exit') return;
     else console.log("You are currently in: " + process.cwd());
 }
