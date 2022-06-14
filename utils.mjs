@@ -7,9 +7,10 @@ import { cd } from './cd.mjs';
 import { ls } from './ls.mjs';
 import { rn } from './rn.mjs';
 import { rm } from './delete.mjs';
+import { cp } from './copy.mjs';
 
 
-export const switcher = (uInput) => {
+export const switcher = async (uInput) => {
     const firstArg = uInput.trim().split(' ')[0];
     const secondArg = uInput.trim().split(' ')[1];
     const thirdArg = uInput.trim().split(' ')[2];
@@ -20,33 +21,36 @@ export const switcher = (uInput) => {
     else {
         switch (firstArg) {
             case 'up':
-                cd(process.cwd(), '..')
+                await cd(process.cwd(), '..')
                 break;
             case 'ls':
-                ls(process.cwd());
+                await ls(process.cwd());
                 break;
             case 'cd':
-                cd(process.cwd(), secondArg)
+                await cd(process.cwd(), secondArg)
                 break;
             case 'cat':
                 try {
-                    read(secondArg);
+                await read(secondArg);
                 } catch (e) {
                     console.log('Operation failed');
                 }
                 break;
             case 'add':
                 try {
-                    create(process.cwd(), secondArg);
+                await create(process.cwd(), secondArg);
                 } catch (e) {
                     console.log('Operation failed');
                 }
                 break;
             case 'rn': 
-            rn(secondArg, newName, process.swd());
+            await rn(secondArg, newName, process.swd());
             break;
             case 'rm': 
-            rm(secondArg);
+            await rm(secondArg);
+            break;
+            case 'cp':
+            await cp(secondArg, thirdArg);
             break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
