@@ -52,6 +52,10 @@ export const switcher = async (uInput) => {
             case 'cp':
             await cp(secondArg, thirdArg);
             break;
+            case 'mv': 
+            await cp(secondArg, thirdArg);
+            await rm(secondArg);
+            break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
                 rl.prompt();
@@ -59,5 +63,5 @@ export const switcher = async (uInput) => {
         }
     }
     if (uInput === '.exit') return;
-    else console.log("You are currently in: " + process.cwd());
+    else console.log("You are currently in: " + process.cwd() + '\n');
 }
