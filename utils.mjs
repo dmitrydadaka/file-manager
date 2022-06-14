@@ -3,6 +3,9 @@ import fs from 'fs';
 import { rl } from './app.mjs';
 import { read } from './read.mjs';
 import { create } from './create.mjs';
+import { cd } from './cd.mjs';
+import { ls } from './ls.mjs';
+import { rn } from './rn.mjs';
 
 
 export const switcher = (uInput) => {
@@ -16,39 +19,13 @@ export const switcher = (uInput) => {
     else {
         switch (firstArg) {
             case 'up':
-                let myDir = process.cwd() + '';
-                try {
-                    if (fs.stat(process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep)).isDirectory())) {
-                        process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
-                    } else console.log('Operation failed');
-                } catch (err) {
-                    console.log('Operation failed');
-                }
+                cd(process.cwd(), '..')
                 break;
             case 'ls':
-                const directoryPath = process.cwd();
-                fs.readdir(directoryPath, function (err, files) {
-                    if (err) {
-                        return console.log('Operation failed');
-                    }
-                    files.forEach(function (file) {
-                        console.log(file);
-                    });
-                });
-                console.log("You are currently in: " + process.cwd());
+                ls(process.cwd());
                 break;
             case 'cd':
-                let myDirCD = process.cwd() + '';
-                try {
-                    if (secondArg === '..') {
-                        if (fs.stat(process.chdir(myDirCD.split(path.sep).slice(0, -1).join(path.sep)).isDirectory())) {
-                            process.chdir(myDir.split(path.sep).slice(0, -1).join(path.sep));
-                        } else console.log('Operation failed');
-                    }
-                    if (secondArg && secondArg !== '..') process.chdir([myDirCD, secondArg].join(path.sep))
-                } catch (err) {
-                    console.log('Operation failed');
-                }
+                cd(process.cwd(), secondArg)
                 break;
             case 'cat':
                 try {
@@ -64,6 +41,8 @@ export const switcher = (uInput) => {
                     console.log('Operation failed');
                 }
                 break;
+            case 'rename': 
+            rn(secondArg, newName, process.swd());
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
                 rl.prompt();
