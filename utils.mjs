@@ -8,6 +8,8 @@ import { ls } from './ls.mjs';
 import { rn } from './rn.mjs';
 import { rm } from './delete.mjs';
 import { cp } from './copy.mjs';
+import { compress } from './compress.mjs';
+import { decompress } from './decompress.mjs';
 
 
 export const switcher = async (uInput) => {
@@ -55,6 +57,12 @@ export const switcher = async (uInput) => {
             case 'mv': 
             await cp(secondArg, thirdArg);
             await rm(secondArg);
+            break;
+            case 'compress':
+            await compress(secondArg, thirdArg);
+            break;
+            case 'decompress':
+            await decompress(secondArg, thirdArg);
             break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
