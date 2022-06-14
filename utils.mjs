@@ -10,6 +10,7 @@ import { rm } from './delete.mjs';
 import { cp } from './copy.mjs';
 import { compress } from './compress.mjs';
 import { decompress } from './decompress.mjs';
+import { hash } from './calcHash.mjs';
 
 
 export const switcher = async (uInput) => {
@@ -46,7 +47,7 @@ export const switcher = async (uInput) => {
                 }
                 break;
             case 'rn': 
-            await rn(secondArg, newName, process.swd());
+            await rn(secondArg, thirdArg);
             break;
             case 'rm': 
             await rm(secondArg);
@@ -63,6 +64,9 @@ export const switcher = async (uInput) => {
             break;
             case 'decompress':
             await decompress(secondArg, thirdArg);
+            break;
+            case 'hash': 
+            await hash(secondArg);
             break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');

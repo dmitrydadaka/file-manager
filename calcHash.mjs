@@ -1,8 +1,8 @@
 import * as crypto from 'crypto';
 import * as fs from 'fs';
 
-export const calculateHash = async () => {
-    return fs.readFile('src/hash/files/fileToCalculateHashFor.txt', 'utf-8', function (err, data) {
+export const hash = async ( pathToFile ) => {
+    return fs.readFile( pathToFile, 'utf-8', function (err, data) {
         if (err) throw err;
         const hashSum = crypto.createHash('sha256');
         const hex = hashSum.update(data).digest('hex');
@@ -11,4 +11,3 @@ export const calculateHash = async () => {
     });
 
 };
-calculateHash();
