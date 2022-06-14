@@ -6,6 +6,7 @@ import { create } from './create.mjs';
 import { cd } from './cd.mjs';
 import { ls } from './ls.mjs';
 import { rn } from './rn.mjs';
+import { rm } from './delete.mjs';
 
 
 export const switcher = (uInput) => {
@@ -41,8 +42,12 @@ export const switcher = (uInput) => {
                     console.log('Operation failed');
                 }
                 break;
-            case 'rename': 
+            case 'rn': 
             rn(secondArg, newName, process.swd());
+            break;
+            case 'rm': 
+            rm(secondArg);
+            break;
             default:
                 rl.setPrompt('Invalid input! Please try again.\n');
                 rl.prompt();
